@@ -1,11 +1,18 @@
-public class file{
-    public static void main(String[] args){
-        int n = 5;
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < i+1; j++) {
-                System.out.print("*");
-            }
-            System.out.println();
-        }
+public class File {
+  class A {
+    public void showA() {
+      System.out.println("A");
+    }
+  }
+  class B {
+    public void showB() {
+      System.out.println("B");
+    }
+  }
+  public static void main(String[] args) {
+        A a = new A();
+        B b = new B();
+        a.showA();
+        b.showB();
     }
 }
