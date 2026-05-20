@@ -43,7 +43,7 @@ public class Product {
     @NotNull(message = "Price is req")
     @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than 0")
     @Column(nullable = false)
-    private float price;
+    private Integer price;
 
     @NotNull(message = "Stock quantity is req")
     @Min(value = 0, message = "Stock cannot be less than zero")

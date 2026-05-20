@@ -24,7 +24,7 @@ public class OrderRequest {
 
     @NotBlank(message = "Customer email is required")
     @Email(message = "Enter a proper valid email")
-    private String email;
+    private String customerEmail;
 
     @Valid
     @NotEmpty(message = "Order must container atleast one item")
