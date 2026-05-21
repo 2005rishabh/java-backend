@@ -3,7 +3,7 @@
 ## Overview
 Practise Application is a Spring Boot-based RESTful service designed to manage a basic e-commerce workflow, including product inventory management and order processing. The application ensures data integrity through transactional logic and validates stock availability before confirming orders.
 
-## Features
+## Features  
 The following features have been implemented in the system:
 
 ### 1. Product Management
