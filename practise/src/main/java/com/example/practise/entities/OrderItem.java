@@ -1,6 +1,5 @@
 package com.example.practise.entities;
 
-import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
