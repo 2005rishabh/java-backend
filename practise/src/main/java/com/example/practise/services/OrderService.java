@@ -21,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class OrderService {
 
-    // 1. Added 'final' keyword so Lombok injects these via Constructor properly
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
 
@@ -52,8 +51,6 @@ public class OrderService {
 
             totalPrice = totalPrice.add(price);
 
-            totalPrice = totalPrice.add(price);
-
             // Deduct product stock quantity
             product.setStockQuantity(product.getStockQuantity() - orderItemRequest.getQuantity());
 
@@ -76,5 +73,13 @@ public class OrderService {
 
         // 2. Critical Step: Actually save the created order to your database!
         return orderRepository.save(order);
+    }
+
+    public List<Order> getOrders() {
+        return orderRepository.findAll();
+    }
+
+    public Order getOrderById(Long id) {
+        return orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found by id" + id));
     }
 }

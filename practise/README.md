@@ -1,30 +1,44 @@
 # Practise Application
 
 ## Overview
+
 Practise Application is a Spring Boot-based RESTful service designed to manage a basic e-commerce workflow, including product inventory management and order processing. The application ensures data integrity through transactional logic and validates stock availability before confirming orders.
 
-## Features  
+## Features
+
 The following features have been implemented in the system:
 
 ### 1. Product Management
-*   Full CRUD (Create, Read, Update, Delete) operations for products.
-*   Validation for product details such as price (must be greater than 0) and stock quantity (cannot be negative).
-*   Categorization and description of items.
+
+- Full CRUD (Create, Read, Update, Delete) operations for products.
+- Validation for product details such as price (must be greater than 0) and stock quantity (cannot be negative).
+- Categorization and description of items.
 
 ### 2. Order Processing
-*   Capability to place orders with multiple items.
-*   Automatic calculation of the total order price based on product prices at the time of purchase.
-*   Validation of product existence and stock availability during order creation.
-*   Automated status assignment (e.g., CONFIRMED) and timestamping for new orders.
+
+- Capability to place orders with multiple items.
+- Retrieve all orders or a specific order by its unique identifier.
+- Automatic calculation of the total order price based on product prices at the time of purchase.
+- Validation of product existence and stock availability during order creation.
+- Automated status assignment (e.g., CONFIRMED) and timestamping for new orders.
 
 ### 3. Inventory Management
-*   Automatic deduction of stock quantities when an order is successfully placed.
-*   Transactional consistency ensuring that stock is only deducted if the entire order process succeeds.
 
-### 4. Configuration and Security
-*   Environment variable support via `.env` files for sensitive data like database credentials.
-*   Database schema management using Hibernate's ddl-auto feature.
-*   API documentation integration using SpringDoc OpenAPI (Swagger UI).
+- Automatic deduction of stock quantities when an order is successfully placed.
+- Transactional consistency ensuring that stock is only deducted if the entire order process succeeds.
+
+### 4. Error Handling
+
+- Input validation using Jakarta Bean Validation (e.g., `@Valid`, `@NotNull`, `@Min`).
+- Business logic validation for stock availability with informative error messages.
+- Entity lookup validation: Throws custom `RuntimeException` with descriptive messages if Products or Orders are not found.
+- Transactional rollback: Ensures data consistency by rolling back changes if an exception occurs during order placement.
+
+### 5. Configuration and Security
+
+- Environment variable support via `.env` files for sensitive data like database credentials.
+- Database schema management using Hibernate's ddl-auto feature.
+- API documentation integration using SpringDoc OpenAPI (Swagger UI).
 
 ## Folder Structure
 
@@ -53,20 +67,24 @@ src/main/java/com/example/practise/
 ```
 
 ### Component Explanations:
-*   **Controllers**: Define the API endpoints. They receive user input, call the appropriate service methods, and return responses.
-*   **DTOs**: Decouple the internal database schema from the external API. They ensure that only required fields are exposed or accepted.
-*   **Entities**: Map Java objects to PostgreSQL database tables using Jakarta Persistence (JPA).
-*   **Repositories**: Provide an interface for performing CRUD operations without writing manual SQL queries.
-*   **Services**: The core of the application where business logic resides, such as checking stock levels and calculating totals.
-*   **Resources**: Contains `application.yml` for framework settings and static/template folders for potential front-end assets.
+
+- **Controllers**: Define the API endpoints. They receive user input, call the appropriate service methods, and return responses.
+- **DTOs**: Decouple the internal database schema from the external API. They ensure that only required fields are exposed or accepted.
+- **Entities**: Map Java objects to PostgreSQL database tables using Jakarta Persistence (JPA).
+- **Repositories**: Provide an interface for performing CRUD operations without writing manual SQL queries.
+- **Services**: The core of the application where business logic resides, such as checking stock levels and calculating totals.
+- **Resources**: Contains `application.yml` for framework settings and static/template folders for potential front-end assets.
 
 ## Implementation Details
 
 ### Transaction Management
+
 The `OrderService` uses the `@Transactional` annotation. This ensures that when an order is placed, the creation of the order record, the creation of order items, and the update of product stock levels all happen as a single atomic unit. If any part fails (e.g., insufficient stock), the entire operation rolls back to maintain data consistency.
 
 ### Database Integration
+
 The application is configured to connect to a PostgreSQL database. It uses environment variables (`DATABASE_URL`, `DATABASE_USERNAME`, `DATABASE_PASSWORD`) to manage connections securely, which are loaded at runtime by the `Dotenv` library in the main class.
 
 ### Validation
+
 Bean Validation (JSR 380) is used across DTOs and Entities to ensure that incoming data meets specific criteria, such as valid email formats for customers and minimum quantity requirements for orders.
