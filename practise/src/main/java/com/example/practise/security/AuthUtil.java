@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.example.practise.entities.User;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
@@ -31,5 +32,12 @@ public class AuthUtil {
         .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 10))
         .signWith(getSecretKey())
         .compact();
+    }
+
+    public String getUsernameFromToken(String token) {
+        Claims claim = Jwts.parser().verifyWith(getSecretKey())
+                            .build().parseSignedClaims(token)
+                            .getPayload();
+        return claim.getSubject();
     }
 }
