@@ -29,7 +29,7 @@ public class AuthService {
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
         User user = (User) authentication.getPrincipal();
-        String token = authUtil.gernerateAccessToken(user);
+        String token = authUtil.generateAccessToken(user);
 
         return new LoginResponse(token, user.getId());
     }

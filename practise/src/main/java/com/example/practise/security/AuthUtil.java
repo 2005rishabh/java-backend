@@ -24,20 +24,20 @@ public class AuthUtil {
         return Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String gernerateAccessToken(User user) {
+    public String generateAccessToken(User user) {
         return Jwts.builder()
-        .subject(user.getUsername())
-        .claim("userId", user.getId().toString())
-        .issuedAt(new Date())
-        .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 10))
-        .signWith(getSecretKey())
-        .compact();
+                .subject(user.getUsername())
+                .claim("userId", user.getId().toString())
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 10))
+                .signWith(getSecretKey())
+                .compact();
     }
 
     public String getUsernameFromToken(String token) {
         Claims claim = Jwts.parser().verifyWith(getSecretKey())
-                            .build().parseSignedClaims(token)
-                            .getPayload();
+                .build().parseSignedClaims(token)
+                .getPayload();
         return claim.getSubject();
     }
 }

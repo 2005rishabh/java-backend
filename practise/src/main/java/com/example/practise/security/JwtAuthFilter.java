@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -30,28 +29,32 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        // TODO Auto-generated method stub
 
-        log.info("incoming request : {}", request.getRequestURI());
-        final String requestTokenHeader = request.getHeader("Authorisation");
+        try {
+            log.info("incoming request : {}", request.getRequestURI());
+            final String requestTokenHeader = request.getHeader("Authorization");
 
-        if (requestTokenHeader == null || !requestTokenHeader.startsWith("Bearer")) {
+            if (requestTokenHeader == null || !requestTokenHeader.startsWith("Bearer")) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+
+            String token = requestTokenHeader.split("Bearer ")[1];
+            String username = authUtil.getUsernameFromToken(token);
+            if (username != null &&
+                    SecurityContextHolder.getContext().getAuthentication() == null) {
+                User user = userRepository.findByUsername(username).orElseThrow(
+                        () -> new RuntimeException("Cannot find the user"));
+                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                        user, null, user.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+            }
             filterChain.doFilter(request, response);
+        } catch (Exception ex) {
+            log.error("JWT auth filter failure", ex);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized: " + ex.getMessage());
             return;
         }
-
-        String token = requestTokenHeader.split("Bearer ")[1];
-        String username = authUtil.getUsernameFromToken(token);
-        if (username != null &&
-                SecurityContextHolder.getContext().getAuthentication() == null) {
-            User user = userRepository.findByUsername(username).orElseThrow(
-                    () -> new RuntimeException("Cannot find the user"));
-            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                    user, null, user.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-        }
-        filterChain.doFilter(request, response);
-
     }
 
 }
