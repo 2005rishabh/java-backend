@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@EnableWebSecurity // Good practice to add this
+@EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
@@ -29,14 +29,17 @@ public class WebSecurityConfig {
 
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-                httpSecurity.csrf(csrf -> csrf.disable())
-                                .sessionManagement(sessionconfig -> sessionconfig
-                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Disable for
-                                                                                                         // REST APIs
+                httpSecurity
+                                .csrf(csrf -> csrf.disable())
+                                .sessionManagement(session -> session
+                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                                 .authorizeHttpRequests(auth -> auth
-                                                .requestMatchers("/auth/**").permitAll() // Allow auth endpoints
-                                                .anyRequest().authenticated() // Protect others
-                                );
+                                                .requestMatchers("/api/auth/**").permitAll() // Ensure this matches your
+                                                                                             // Controller
+                                                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll() // Allow
+                                                                                                                  // Swagger
+                                                .anyRequest().authenticated());
+
                 return httpSecurity.build();
         }
 }

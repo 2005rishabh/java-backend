@@ -1,9 +1,9 @@
 package com.example.practise.services;
 
-import org.jspecify.annotations.Nullable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.practise.dto.LoginRequest;
@@ -17,38 +17,37 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-
 public class AuthService {
 
     private final AuthenticationManager authenticationManager;
     private final AuthUtil authUtil;
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder; // Add this
 
     public LoginResponse login(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
-        );
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
         User user = (User) authentication.getPrincipal();
-
         String token = authUtil.gernerateAccessToken(user);
 
         return new LoginResponse(token, user.getId());
     }
 
     public SignupResponse signup(LoginRequest signRequest) {
-        User user = userRepository.findByUsername(signRequest.getUsername())
-        .orElseThrow(
-            () -> new RuntimeException("Invalid username not found")
-        );
+        // 1. Check if user already exists
+        if (userRepository.findByUsername(signRequest.getUsername()).isPresent()) {
+            throw new RuntimeException("User already exists with username: " + signRequest.getUsername());
+        }
 
-        if(user != null) throw new IllegalArgumentException();
+        // 2. Encode password and save new user
+        User user = User.builder()
+                .username(signRequest.getUsername())
+                .password(passwordEncoder.encode(signRequest.getPassword())) // Encode here!
+                .build();
 
-        user  = userRepository.save(user.builder()
-                    .username(signRequest.getUsername())
-                .password(signRequest.getPassword())
-            .build());
+        User savedUser = userRepository.save(user);
 
-        return new SignupResponse(user.getId(), user.getUsername());
+        return new SignupResponse(savedUser.getId(), savedUser.getUsername());
     }
 }
