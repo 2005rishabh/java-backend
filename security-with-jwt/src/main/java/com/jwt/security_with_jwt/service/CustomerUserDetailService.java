@@ -20,10 +20,13 @@ public class CustomerUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
+
+        // now we are going to extract username from token
         User user = userRepository.findByUserName(username)
-        .orElseThrow(() -> new UsernameNotFoundException("Error getting user"));
+                .orElseThrow(() -> new UsernameNotFoundException("Error getting user"));
 
-
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new ArrayList<>());
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(), user.getPassword(), new ArrayList<>()
+        );
     }
 }
