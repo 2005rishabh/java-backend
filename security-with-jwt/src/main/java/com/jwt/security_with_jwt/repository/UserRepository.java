@@ -10,5 +10,5 @@ import com.jwt.security_with_jwt.entity.User;
 @Repository
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByUserName(String username);
+    Optional<User> findByUsername(String username);
 }

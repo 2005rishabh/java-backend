@@ -22,11 +22,10 @@ public class CustomerUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) {
 
         // now we are going to extract username from token
-        User user = userRepository.findByUserName(username)
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Error getting user"));
 
         return new org.springframework.security.core.userdetails.User(
-                user.getUsername(), user.getPassword(), new ArrayList<>()
-        );
+                user.getUsername(), user.getPassword(), new ArrayList<>());
     }
 }

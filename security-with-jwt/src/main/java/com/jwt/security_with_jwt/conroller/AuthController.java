@@ -25,8 +25,8 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
-    public String registerUser(User user) {
-        if (userRepository.findByUserName(user.getUsername()).isPresent()) {
+    public String registerUser(@RequestBody User user) {
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
             return "User already exists";
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
