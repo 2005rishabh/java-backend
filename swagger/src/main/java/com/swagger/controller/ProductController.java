@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.swagger.entity.Product;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api/products")
