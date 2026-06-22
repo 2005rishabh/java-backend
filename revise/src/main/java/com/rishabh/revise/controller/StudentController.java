@@ -36,19 +36,19 @@ public class StudentController {
         return ResponseEntity.ok(stdResponse);
     }
 
-    @GetMapping("{/id}")
+    @GetMapping("/{id}")
     public ResponseEntity<StdResponse> getStudentById(Long id) {
         StdResponse stdResponse = studentService.getStudentById(id);
         return ResponseEntity.ok(stdResponse);
     }
 
-    @PutMapping("{/id}")
+    @PutMapping("/{id}")
     public ResponseEntity<StdResponse> updateStudent(Long id, StdRequest request) {
         StdResponse stdResponse = studentService.updateStudent(id, request);
         return ResponseEntity.ok(stdResponse);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteStudent(Long id) {
         return ResponseEntity.ok("Student deleted successfully.");
     }
