@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,19 +38,19 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<StdResponse> getStudentById(Long id) {
+    public ResponseEntity<StdResponse> getStudentById(@PathVariable Long id) {
         StdResponse stdResponse = studentService.getStudentById(id);
         return ResponseEntity.ok(stdResponse);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<StdResponse> updateStudent(Long id, StdRequest request) {
+    public ResponseEntity<StdResponse> updateStudent(@PathVariable Long id, @RequestBody StdRequest request) {
         StdResponse stdResponse = studentService.updateStudent(id, request);
         return ResponseEntity.ok(stdResponse);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteStudent(Long id) {
+    public ResponseEntity<String> deleteStudent(@PathVariable Long id) {
         return ResponseEntity.ok("Student deleted successfully.");
     }
 }
