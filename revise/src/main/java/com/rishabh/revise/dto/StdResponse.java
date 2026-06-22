@@ -16,5 +16,5 @@ import lombok.NoArgsConstructor;
 
 public class StdResponse {
     private String name;
-    private String mail;
+    private String email;
 }

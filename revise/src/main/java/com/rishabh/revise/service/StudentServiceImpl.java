@@ -29,27 +29,53 @@ public class StudentServiceImpl implements StudentService {
         studentRepository.save(student);
         return StdResponse.builder()
                 .name(student.getName())
-                .mail(student.getEmail())
+                .email(student.getEmail())
                 .build();
-}
+    }
 
     @Override
     public List<StdResponse> getAllStudents() {
+        List<Student> list = studentRepository.findAll();
 
+        return list.stream()
+                .map(
+                        student -> StdResponse.builder()
+                                .name(student.getName())
+                                .email(student.getEmail())
+                                .build())
+                .toList();
     }
 
     @Override
     public StdResponse getStudentById(Long id) {
+        Student std = studentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No student find by id : " + id));
 
+        return StdResponse.builder()
+                .name(std.getName())
+                .email(std.getEmail())
+                .build();
     }
 
     @Override
     public StdResponse updateStudent(Long id, StdRequest request) {
+        Student std = studentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No student find by id : " + id));
 
+        std.setName(request.getName());
+        std.setEmail(request.getEmail());
+        std.setPassword(request.getPassword());
+
+        Student savedEntity = studentRepository.save(std);
+
+        return StdResponse.builder()
+                .name(savedEntity.getName())
+                .email(savedEntity.getEmail())
+                .build();
     }
 
     @Override
     public void deleteStudent(Long id) {
-
+        studentRepository.deleteById(id);
     }
 }
