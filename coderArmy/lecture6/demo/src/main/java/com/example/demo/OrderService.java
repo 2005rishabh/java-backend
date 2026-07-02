@@ -15,5 +15,8 @@ public class OrderService {
         paymentService.pay();
         System.out.println("Order Placed");
     }
-    
+
+    public void getOrderDetails() {
+        System.out.println("Order Details");
+    }
 }
