@@ -1,15 +1,17 @@
 package com.example.demo;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 
 public class OrderService {
-    PaymentService paymentService;
+    @Autowired
+    private PaymentService paymentService;
 
-    public OrderService(PaymentService paymentService) {
-        this.paymentService = paymentService;
-    }
+    // public OrderService(PaymentService paymentService) {
+    // this.paymentService = paymentService;
+    // }
 
     public void order() {
         paymentService.pay();
