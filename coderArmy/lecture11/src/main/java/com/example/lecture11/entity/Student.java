@@ -1,14 +1,24 @@
 package com.example.lecture11.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 @Entity
 public class Student {
+    @Id
+    private Long id;
     private String name;
     private String email;
     private Integer age;
     private Integer rollNumber;
     private String subject;
+    
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
     public String getName() {
         return name;
     }
