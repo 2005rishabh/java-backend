@@ -2,6 +2,7 @@ package com.example.lecture11.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,14 +25,14 @@ public class StudentController {
     }
 
     @PostMapping("/create")
-    public String createStudent(@RequestBody Student student ) {
+    public ResponseEntity<Student> createStudent(@RequestBody Student student ) {
         Student createdStudent = studentService.createStudent(student);
 
-        return "Student created successfully";        
+        return ResponseEntity.ok(createdStudent);        
     }
 
     @GetMapping
-    public void getStudent() {
+    public  getStudent() {
         List<Student> std;
     }
 

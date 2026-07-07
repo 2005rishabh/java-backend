@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import com.example.lecture11.entity.Student;
 
-
 @Component
 public class StudentRepository {
 

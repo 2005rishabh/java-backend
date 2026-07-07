@@ -17,4 +17,25 @@ public class StudentService {
         Student createdStudent = studentRepository.saveStudent(reqStudent);
         return createdStudent;
     }
+
+    public Student getStudent() {
+        Student createdStudent = studentRepository.fin.
+        return createdStudent;
+    }
+
+    public Student getStudentById(Long id) {
+        Student createdStudent = studentRepository.saveStudent(reqStudent);
+        return createdStudent;
+    }
+
+    public Student deleteStudent(Long id) {
+        Student createdStudent = studentRepository.saveStudent(reqStudent);
+        return createdStudent;
+    }
+
+    public Student updateStudent(Long id) {
+        Student createdStudent = studentRepository.saveStudent(reqStudent);
+        return createdStudent;
+    }
+
 }
