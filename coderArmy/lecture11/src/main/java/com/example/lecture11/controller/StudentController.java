@@ -31,23 +31,23 @@ public class StudentController {
         return ResponseEntity.ok(createdStudent);        
     }
 
-    @GetMapping
-    public  getStudent() {
-        List<Student> std;
-    }
+    // @GetMapping
+    // public  getStudent() {
+    //     List<Student> std;
+    // }
 
-    @GetMapping("/{id}")
-    public void getStudentById() {
+    // @GetMapping("/{id}")
+    // public void getStudentById() {
 
-    }
+    // }
 
-    @DeleteMapping("/{id}")
-    public void deleteStudent() {
+    // @DeleteMapping("/{id}")
+    // public void deleteStudent() {
 
-    }
+    // }
 
-    @PutMapping("/{id}")
-    public void updateStudent() {
+    // @PutMapping("/{id}")
+    // public void updateStudent() {
 
-    }
+    // }
 }
