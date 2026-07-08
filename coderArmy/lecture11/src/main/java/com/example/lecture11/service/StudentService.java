@@ -23,10 +23,13 @@ public class StudentService {
     //     return createdStudent;
     // }
 
-    // public Student getStudentById(Long id) {
-    //     Student createdStudent = studentRepository.saveStudent(reqStudent);
-    //     return createdStudent;
-    // }
+    public Student getStudentById(Long id) {
+        Student createdStudent = studentRepository.findById(id).
+        orElseThrow(() -> new RuntimeException(
+            "Not found by id " + id
+        ));
+        return createdStudent;
+    }
 
     // public Student deleteStudent(Long id) {
     //     Student createdStudent = studentRepository.saveStudent(reqStudent);
