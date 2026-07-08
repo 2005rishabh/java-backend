@@ -1,5 +1,7 @@
 package com.example.lecture11.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.example.lecture11.entity.Student;
@@ -18,10 +20,10 @@ public class StudentService {
         return createdStudent;
     }
 
-    // public Student getStudent() {
-    //     Student createdStudent = studentRepository.findAll();
-    //     return createdStudent;
-    // }
+    public List<Student> getStudent() {
+        List<Student> stdLists = studentRepository.findAll();
+        return stdLists;
+    }
 
     public Student getStudentById(Long id) {
         Student createdStudent = studentRepository.findById(id).

@@ -26,16 +26,17 @@ public class StudentController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Student> createStudent(@RequestBody Student student ) {
+    public ResponseEntity<Student> createStudent(@RequestBody Student student) {
         Student createdStudent = studentService.createStudent(student);
 
-        return ResponseEntity.ok(createdStudent);        
+        return ResponseEntity.ok(createdStudent);
     }
 
-    // @GetMapping
-    // public ResponseEntity<Student> getStudent() {
-    //     List<Student> std;
-    // }
+    @GetMapping({ "", "/getAll" })
+    public ResponseEntity<List<Student>> getStudent() {
+        List<Student> std = studentService.getStudent();
+        return ResponseEntity.ok(std);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Student> getStudentById(@PathVariable Long id) {
