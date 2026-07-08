@@ -33,10 +33,9 @@ public class StudentService {
         return createdStudent;
     }
 
-    // public Student deleteStudent(Long id) {
-    //     Student createdStudent = studentRepository.saveStudent(reqStudent);
-    //     return createdStudent;
-    // }
+    public void deleteStudent(Long id) {
+        studentRepository.deleteById(id);
+    }
 
     // public Student updateStudent(Long id) {
     //     Student createdStudent = studentRepository.saveStudent(reqStudent);

@@ -44,13 +44,15 @@ public class StudentController {
         return ResponseEntity.ok(getStudent);
     }
 
-    // @DeleteMapping("/{id}")
-    // public void deleteStudent() {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteStudent(@PathVariable Long id) {
+        studentService.deleteStudent(id);
+        return ResponseEntity.ok("Student expelled successfully");
 
-    // }
+    }
 
     // @PutMapping("/{id}")
-    // public void updateStudent() {
+    // public void updateStudent(@PathVariable Long id) {
 
     // }
 }
