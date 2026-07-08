@@ -22,25 +22,21 @@ public class StudentService {
     }
 
     public List<Student> getStudent() {
-        List<Student> stdLists = studentRepository.findAll();
+        List<Student> stdLists = studentRepository.findByDeletedIsFalse();
         return stdLists;
     }
 
     public Student getStudentById(Long id) {
-        Student createdStudent = studentRepository.findById(id).
+        Student createdStudent = studentRepository.findByIdAndDeletedIsFalse(id).
         orElseThrow(() -> new RuntimeException(
             "Not found by id " + id
         ));
         return createdStudent;
     }
-
-    public void deleteStudent(Long id) {
-        studentRepository.deleteById(id);
-    }
-
+    
     public Student updateStudent(Long id, Student studentDetails) {
 
-        Student existingStudent = studentRepository.findById(id)
+        Student existingStudent = studentRepository.findByIdAndDeletedIsFalse(id)
             .orElseThrow(() -> new RuntimeException("Not found by id " + id));
         existingStudent.setId(studentDetails.getId());
         existingStudent.setName(studentDetails.getName());
@@ -48,14 +44,18 @@ public class StudentService {
         existingStudent.setAge(studentDetails.getAge());
         existingStudent.setRollNumber(studentDetails.getRollNumber());
         existingStudent.setSubject(studentDetails.getSubject());
+        existingStudent.setDeleted(false);
 
         return studentRepository.save(existingStudent);
     }
 
+    public void deleteStudent(Long id) {
+        studentRepository.deleteById(id);
+    }
 
     public Student softDelete(Long id) {
 
-        Student existingStudent = studentRepository.findById(id)
+        Student existingStudent = studentRepository.findByIdAndDeletedIsFalse(id)
             .orElseThrow(() -> new RuntimeException("Not found by id " + id));
 
         existingStudent.setDeleted(true);
