@@ -16,6 +16,7 @@ public class StudentService {
     }
 
     public Student createStudent(Student reqStudent) {
+        reqStudent.setDeleted(false);
         Student createdStudent = studentRepository.save(reqStudent);
         return createdStudent;
     }
@@ -38,7 +39,7 @@ public class StudentService {
     }
 
     public Student updateStudent(Long id, Student studentDetails) {
-        // 1. Fetch the existing student from the database
+
         Student existingStudent = studentRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Not found by id " + id));
         existingStudent.setId(studentDetails.getId());
@@ -48,7 +49,17 @@ public class StudentService {
         existingStudent.setRollNumber(studentDetails.getRollNumber());
         existingStudent.setSubject(studentDetails.getSubject());
 
-        // 3. Save and return the updated student
+        return studentRepository.save(existingStudent);
+    }
+
+
+    public Student softDelete(Long id) {
+
+        Student existingStudent = studentRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Not found by id " + id));
+
+        existingStudent.setDeleted(true);
+        
         return studentRepository.save(existingStudent);
     }
 }

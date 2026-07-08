@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -55,5 +56,12 @@ public class StudentController {
     public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody Student student) {
         Student updatedStudent = studentService.updateStudent(id, student);
         return ResponseEntity.ok(updatedStudent);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<String> softDelete(@PathVariable Long id) 
+    {
+        studentService.softDelete(id);
+        return ResponseEntity.ok("Soft deleted successfully");
     }
 }
