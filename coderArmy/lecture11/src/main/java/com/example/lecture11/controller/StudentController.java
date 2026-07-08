@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.lecture11.entity.Student;
@@ -39,28 +40,27 @@ public class StudentController {
         return ResponseEntity.ok(std);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Student> getStudentById(@PathVariable Long id) {
+    @GetMapping("")
+    public ResponseEntity<Student> getStudentById(@RequestParam Long id) {
         Student getStudent = studentService.getStudentById(id);
         return ResponseEntity.ok(getStudent);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody Student student) {
+    @PutMapping("")
+    public ResponseEntity<Student> updateStudent(@RequestParam Long id, @RequestBody Student student) {
         Student updatedStudent = studentService.updateStudent(id, student);
         return ResponseEntity.ok(updatedStudent);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteStudent(@PathVariable Long id) {
+    @DeleteMapping("")
+    public ResponseEntity<String> deleteStudent(@RequestParam Long id) {
         studentService.deleteStudent(id);
         return ResponseEntity.ok("Student expelled successfully");
 
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<String> softDelete(@PathVariable Long id) 
-    {
+    @PatchMapping("")
+    public ResponseEntity<String> softDelete(@RequestParam Long id) {
         studentService.softDelete(id);
         return ResponseEntity.ok("Soft deleted successfully");
     }
