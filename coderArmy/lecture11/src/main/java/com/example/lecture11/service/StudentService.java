@@ -37,9 +37,18 @@ public class StudentService {
         studentRepository.deleteById(id);
     }
 
-    // public Student updateStudent(Long id) {
-    //     Student createdStudent = studentRepository.saveStudent(reqStudent);
-    //     return createdStudent;
-    // }
+    public Student updateStudent(Long id, Student studentDetails) {
+        // 1. Fetch the existing student from the database
+        Student existingStudent = studentRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Not found by id " + id));
+        existingStudent.setId(studentDetails.getId());
+        existingStudent.setName(studentDetails.getName());
+        existingStudent.setEmail(studentDetails.getEmail());
+        existingStudent.setAge(studentDetails.getAge());
+        existingStudent.setRollNumber(studentDetails.getRollNumber());
+        existingStudent.setSubject(studentDetails.getSubject());
 
+        // 3. Save and return the updated student
+        return studentRepository.save(existingStudent);
+    }
 }

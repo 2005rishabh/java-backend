@@ -51,8 +51,9 @@ public class StudentController {
 
     }
 
-    // @PutMapping("/{id}")
-    // public void updateStudent(@PathVariable Long id) {
-
-    // }
+    @PutMapping("/{id}")
+    public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody Student student) {
+        Student updatedStudent = studentService.updateStudent(id, student);
+        return ResponseEntity.ok(updatedStudent);
+    }
 }
