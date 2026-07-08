@@ -31,10 +31,10 @@ public class StudentController {
         return ResponseEntity.ok(createdStudent);        
     }
 
-    // @GetMapping
-    // public  getStudent() {
-    //     List<Student> std;
-    // }
+    @GetMapping
+    public  getStudent() {
+        List<Student> std;
+    }
 
     // @GetMapping("/{id}")
     // public void getStudentById() {
