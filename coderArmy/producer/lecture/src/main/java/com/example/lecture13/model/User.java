@@ -6,6 +6,17 @@ public class User {
     private String email;
     private String mobile;
 
+    // Default constructor is highly recommended for Model classes
+    public User() {
+    }
+
+    public User(Integer id, String name, String email, String mobile) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.mobile = mobile;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -35,13 +46,6 @@ public class User {
     }
 
     public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public User(Integer id, String name, String email, String mobile) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
         this.mobile = mobile;
     }
 }

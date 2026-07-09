@@ -1,5 +1,6 @@
 package com.example.lecture13.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,19 +24,22 @@ public class UserService {
     }
 
     public List<User> getUsers() {
-        return (List<User>) map.values();
+        // Corrected: You cannot cast a Map Collection directly to a List.
+        return new ArrayList<>(map.values());
     }
 
     public User updateUser(Integer id, User userReq) {
-        map.put(id, userReq);
-        return userReq;
+        if (map.containsKey(id)) {
+            map.put(id, userReq);
+            return userReq;
+        }
+        return null;
     }
 
-    public String deletUser(Integer id) {
-        map.remove(id);
-        return "User deleted successfully";
+    public String deleteUser(Integer id) { // Corrected spelling
+        if (map.remove(id) != null) {
+            return "User deleted successfully";
+        }
+        return "User not found";
     }
-
-
-
 }
