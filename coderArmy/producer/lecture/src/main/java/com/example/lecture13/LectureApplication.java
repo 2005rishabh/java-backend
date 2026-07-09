@@ -8,6 +8,7 @@ public class LectureApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(LectureApplication.class, args);
+		System.out.println("Hello");
 	}
 
 }
