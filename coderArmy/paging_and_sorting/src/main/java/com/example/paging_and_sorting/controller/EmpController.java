@@ -1,7 +1,10 @@
 package com.example.paging_and_sorting.controller;
 
+import static org.springframework.data.domain.Sort.by;
+
 import java.util.List;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,9 +25,17 @@ public class EmpController {
     @GetMapping("/list")
     public List<Employee> getEmployees(
             @RequestParam(defaultValue = "1") int pageNo,
-            @RequestParam(defaultValue = "10") int pageSize) {
-        int pageIndex = (pageNo < 1) ? 0 : pageNo - 1;
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam String sortBy,
+            @RequestParam String sortDirection) {
 
-        return empService.fetchEmployees(PageRequest.of(pageIndex, pageSize));
+        Sort sort = null;
+        if (sortDirection.equalsIgnoreCase("ASC")) {
+            sort = Sort.by(sortBy).ascending();
+        } else {
+            sort = Sort.by(sortBy).descending();
+        }
+        int pageIndex = (pageNo < 1) ? 0 : pageNo - 1;
+        return empService.fetchEmployees(PageRequest.of(pageIndex, pageSize, sort));
     }
 }
