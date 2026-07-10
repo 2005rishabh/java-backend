@@ -19,7 +19,9 @@ public class EmpController {
     }
 
     @GetMapping("/list")
-    public List<Employee> getEmployees() {
+    public List<Employee> getEmployees(@RequestBody int pageNo, 
+                                    @
+    ) {
         return empService.fetchEmployees();
     }
 }

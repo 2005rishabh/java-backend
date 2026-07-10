@@ -1,6 +1,8 @@
 package com.example.paging_and_sorting.service;
 
 import java.util.List;
+
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.example.paging_and_sorting.model.Employee;
 import com.example.paging_and_sorting.repository.EmpRepository;
@@ -15,7 +17,7 @@ public class EmpService {
         this.empRepository = empRepository;
     }
 
-    public List<Employee> fetchEmployees() {
-        return empRepository.findAll();
+    public List<Employee> fetchEmployees(Pageable pageable) {
+        return empRepository.findAll(pageable).getContent();
     }
 }
