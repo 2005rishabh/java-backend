@@ -24,10 +24,11 @@ public class EmpController {
 
     @GetMapping("/list")
     public List<Employee> getEmployees(
-            @RequestParam(defaultValue = "1") int pageNo,
-            @RequestParam(defaultValue = "10") int pageSize,
-            @RequestParam String sortBy,
-            @RequestParam String sortDirection) {
+            @RequestParam(required = false, defaultValue = "1") int pageNo,
+            @RequestParam(required = false, defaultValue = "10") int pageSize,
+            @RequestParam(required = false, defaultValue = "id") String sortBy,
+            @RequestParam(required = false, defaultValue = "ASC") String sortDirection,
+            @RequestParam(required = false) String search) {
 
         Sort sort = null;
         if (sortDirection.equalsIgnoreCase("ASC")) {
@@ -36,6 +37,6 @@ public class EmpController {
             sort = Sort.by(sortBy).descending();
         }
         int pageIndex = (pageNo < 1) ? 0 : pageNo - 1;
-        return empService.fetchEmployees(PageRequest.of(pageIndex, pageSize, sort));
+        return empService.fetchEmployees(PageRequest.of(pageIndex, pageSize, sort), search);
     }
 }
