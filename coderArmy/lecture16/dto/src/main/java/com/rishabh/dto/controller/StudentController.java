@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rishabh.dto.dtos.ReqDto;
+import com.rishabh.dto.dtos.ResDto;
 import com.rishabh.dto.entity.Student;
 import com.rishabh.dto.service.StudentService;
 
@@ -27,8 +29,8 @@ public class StudentController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Student> createStudent(@RequestBody Student student) {
-        Student createdStudent = studentService.createStudent(student);
+    public ResponseEntity<ResDto> createStudent(@RequestBody ReqDto student) {
+        ResDto createdStudent = studentService.createStudent(student);
 
         return ResponseEntity.ok(createdStudent);
     }
