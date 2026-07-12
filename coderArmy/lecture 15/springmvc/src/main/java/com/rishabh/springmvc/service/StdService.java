@@ -15,16 +15,16 @@ public class StdService {
         this.stdRepository = stdRepository;
     }
 
-    private Student createStudent(Student stdReq) {
+    public Student createStudent(Student stdReq) {
         return stdRepository.save(stdReq);
     }
 
-    private Student getStudentById(Long id) {
+    public Student getStudentById(Long id) {
         return stdRepository.findByID(id);
     }
 
-    private List<Student> getAllStudents() {
+    public List<Student> getAllStudents() {
         return stdRepository.findAll();
     }
-    
+
 }
