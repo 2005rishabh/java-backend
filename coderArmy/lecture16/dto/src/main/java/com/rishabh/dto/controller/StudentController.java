@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rishabh.dto.dtos.ReqDto;
 import com.rishabh.dto.dtos.ResDto;
-import com.rishabh.dto.entity.Student;
 import com.rishabh.dto.service.StudentService;
 
 @RestController
@@ -36,20 +35,20 @@ public class StudentController {
     }
 
     @GetMapping({ "", "/getAll" })
-    public ResponseEntity<List<Student>> getStudent() {
-        List<Student> std = studentService.getStudent();
+    public ResponseEntity<List<ResDto>> getStudent() {
+        List<ResDto> std = studentService.getStudent();
         return ResponseEntity.ok(std);
     }
 
     @GetMapping("")
-    public ResponseEntity<Student> getStudentById(@RequestParam Long id) {
-        Student getStudent = studentService.getStudentById(id);
+    public ResponseEntity<ResDto> getStudentById(@RequestParam Long id) {
+        ResDto getStudent = studentService.getStudentById(id);
         return ResponseEntity.ok(getStudent);
     }
 
     @PutMapping("")
-    public ResponseEntity<Student> updateStudent(@RequestParam Long id, @RequestBody Student student) {
-        Student updatedStudent = studentService.updateStudent(id, student);
+    public ResponseEntity<ResDto> updateStudent(@RequestParam Long id, @RequestBody ReqDto student) {
+        ResDto updatedStudent = studentService.updateStudent(id, student);
         return ResponseEntity.ok(updatedStudent);
     }
 
@@ -61,8 +60,8 @@ public class StudentController {
     }
 
     @PatchMapping("")
-    public ResponseEntity<String> softDelete(@RequestParam Long id) {
-        studentService.softDelete(id);
-        return ResponseEntity.ok("Soft deleted successfully");
+    public ResponseEntity<ResDto> softDelete(@RequestParam Long id) {
+        ResDto deletedStudent = studentService.softDelete(id);
+        return ResponseEntity.ok(deletedStudent);
     }
 }

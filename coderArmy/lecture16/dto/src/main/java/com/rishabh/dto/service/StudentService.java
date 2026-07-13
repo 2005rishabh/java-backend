@@ -1,6 +1,7 @@
 package com.rishabh.dto.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -26,44 +27,51 @@ public class StudentService {
         return mapToDto(savedEntity);
     }
 
-    public List<Student> getStudent() {
+    public List<ResDto> getStudent() {
         List<Student> stdLists = studentRepository.findByDeletedIsFalse();
-        return stdLists;
+        List<ResDto> response = new ArrayList<>();
+
+        for (Student student : stdLists) {
+            response.add(mapToDto(student));
+        }
+
+        return response;
     }
 
-    public Student getStudentById(Long id) {
-        Student createdStudent = studentRepository.findByIdAndDeletedIsFalse(id).orElseThrow(() -> new RuntimeException(
-                "Not found by id " + id));
-        return createdStudent;
+    public ResDto getStudentById(Long id) {
+        Student createdStudent = studentRepository.findByIdAndDeletedIsFalse(id)
+                .orElseThrow(() -> new RuntimeException("Not found by id " + id));
+        return mapToDto(createdStudent);
     }
 
-    public Student updateStudent(Long id, Student studentDetails) {
+    public ResDto updateStudent(Long id, ReqDto studentDetails) {
 
         Student existingStudent = studentRepository.findByIdAndDeletedIsFalse(id)
                 .orElseThrow(() -> new RuntimeException("Not found by id " + id));
-        existingStudent.setId(studentDetails.getId());
         existingStudent.setName(studentDetails.getName());
         existingStudent.setEmail(studentDetails.getEmail());
         existingStudent.setAge(studentDetails.getAge());
         existingStudent.setRollNumber(studentDetails.getRollNumber());
         existingStudent.setSubject(studentDetails.getSubject());
         existingStudent.setDeleted(false);
+        existingStudent.setUpdatedAt(LocalDateTime.now());
 
-        return studentRepository.save(existingStudent);
+        return mapToDto(studentRepository.save(existingStudent));
     }
 
     public void deleteStudent(Long id) {
         studentRepository.deleteById(id);
     }
 
-    public Student softDelete(Long id) {
+    public ResDto softDelete(Long id) {
 
         Student existingStudent = studentRepository.findByIdAndDeletedIsFalse(id)
                 .orElseThrow(() -> new RuntimeException("Not found by id " + id));
 
         existingStudent.setDeleted(true);
+        existingStudent.setUpdatedAt(LocalDateTime.now());
 
-        return studentRepository.save(existingStudent);
+        return mapToDto(studentRepository.save(existingStudent));
     }
 
     // HELPER FUNCTION I WILL CREATE SEPERATE CLASS OF IT IN FUTURE
@@ -72,7 +80,7 @@ public class StudentService {
         Student std = new Student();
         std.setName(req.getName());
         std.setAge(req.getAge());
-        std.setEmail(req.getName());
+        std.setEmail(req.getEmail());
         std.setRollNumber(req.getRollNumber());
         std.setSubject(req.getSubject());
         std.setDeleted(false);
@@ -88,7 +96,7 @@ public class StudentService {
         std.setId(req.getId());
         std.setName(req.getName());
         std.setAge(req.getAge());
-        std.setEmail(req.getName());
+        std.setEmail(req.getEmail());
         std.setRollNumber(req.getRollNumber());
         std.setSubject(req.getSubject());
         std.setCreatedAt(req.getCreatedAt());
