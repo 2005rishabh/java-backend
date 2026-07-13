@@ -3,6 +3,7 @@ package com.rishabh.dto.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -28,7 +29,7 @@ public class StudentController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ResDto> createStudent(@RequestBody ReqDto student) {
+    public ResponseEntity<ResDto> createStudent(@Valid @RequestBody ReqDto student) {
         ResDto createdStudent = studentService.createStudent(student);
 
         return ResponseEntity.ok(createdStudent);
@@ -47,7 +48,7 @@ public class StudentController {
     }
 
     @PutMapping("")
-    public ResponseEntity<ResDto> updateStudent(@RequestParam Long id, @RequestBody ReqDto student) {
+    public ResponseEntity<ResDto> updateStudent(@RequestParam Long id, @Valid @RequestBody ReqDto student) {
         ResDto updatedStudent = studentService.updateStudent(id, student);
         return ResponseEntity.ok(updatedStudent);
     }
