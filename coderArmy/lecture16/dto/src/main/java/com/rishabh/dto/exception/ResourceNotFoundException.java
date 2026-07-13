@@ -1,0 +1,9 @@
+package com.rishabh.dto.exception;
+
+public class ResourceNotFoundException extends RuntimeException {
+
+    public ResourceNotFoundException(String message) {
+        super(message);
+    }
+
+}

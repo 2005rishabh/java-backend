@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.rishabh.dto.dtos.ReqDto;
 import com.rishabh.dto.dtos.ResDto;
 import com.rishabh.dto.entity.Student;
+import com.rishabh.dto.exception.DuplicateResourceException;
+import com.rishabh.dto.exception.ResourceNotFoundException;
 import com.rishabh.dto.repository.StudentRepository;
 
 @Service
@@ -20,8 +22,12 @@ public class StudentService {
     }
 
     public ResDto createStudent(ReqDto reqStudent) {
-        Student student = maptoEntity(reqStudent);
+        // Check if email already exists
+        if (studentRepository.findByEmail(reqStudent.getEmail()).isPresent()) {
+            throw new DuplicateResourceException("Email already exists: " + reqStudent.getEmail());
+        }
 
+        Student student = maptoEntity(reqStudent);
         Student savedEntity = studentRepository.save(student);
 
         return mapToDto(savedEntity);
@@ -40,14 +46,22 @@ public class StudentService {
 
     public ResDto getStudentById(Long id) {
         Student createdStudent = studentRepository.findByIdAndDeletedIsFalse(id)
-                .orElseThrow(() -> new RuntimeException("Not found by id " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found with id: " + id));
         return mapToDto(createdStudent);
     }
 
     public ResDto updateStudent(Long id, ReqDto studentDetails) {
 
         Student existingStudent = studentRepository.findByIdAndDeletedIsFalse(id)
-                .orElseThrow(() -> new RuntimeException("Not found by id " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found with id: " + id));
+
+        // Check if new email is already used by another student
+        if (!existingStudent.getEmail().equals(studentDetails.getEmail())) {
+            if (studentRepository.findByEmail(studentDetails.getEmail()).isPresent()) {
+                throw new DuplicateResourceException("Email already exists: " + studentDetails.getEmail());
+            }
+        }
+
         existingStudent.setName(studentDetails.getName());
         existingStudent.setEmail(studentDetails.getEmail());
         existingStudent.setAge(studentDetails.getAge());
@@ -60,13 +74,15 @@ public class StudentService {
     }
 
     public void deleteStudent(Long id) {
+        studentRepository.findByIdAndDeletedIsFalse(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found with id: " + id));
         studentRepository.deleteById(id);
     }
 
     public ResDto softDelete(Long id) {
 
         Student existingStudent = studentRepository.findByIdAndDeletedIsFalse(id)
-                .orElseThrow(() -> new RuntimeException("Not found by id " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found with id: " + id));
 
         existingStudent.setDeleted(true);
         existingStudent.setUpdatedAt(LocalDateTime.now());
