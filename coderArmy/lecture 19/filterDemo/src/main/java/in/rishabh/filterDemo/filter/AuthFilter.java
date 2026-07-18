@@ -12,8 +12,8 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-// @Component
-public class LoggingFilter implements Filter {
+@Component
+public class AuthFilter implements Filter {
 
     @Override
     public void doFilter(
@@ -25,12 +25,13 @@ public class LoggingFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
 
-        System.out.println("Incoming req : " + httpServletRequest.getMethod() + " " +
-                httpServletRequest.getRequestURI());
-
+        
+        String token = httpServletRequest.getHeader("token");
+        if(token == null || !token.equals("12345")) {
+            httpServletResponse.setStatus(httpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
         filterChain.doFilter(servletRequest, servletResponse);
-
-        System.out.println("Incoming response status: " + httpServletResponse.getStatus());
 
     }
 
