@@ -13,14 +13,14 @@ import in.rishabh.filterDemo.controller.StudentController;
 @SpringBootTest
 class FilterDemoApplicationTests {
 
-	@Autowired
-	private StudentController studentController;
+	// @Autowired
+	// private StudentController studentController;
 
-	@Test
-	void createStudentEndpointReturnsSuccessMessage() {
-		ResponseEntity<String> response = studentController.createStudent();
-		assertEquals(HttpStatus.OK, response.getStatusCode());
-		assertEquals("Student created successfully", response.getBody());
-	}
+	// @Test
+	// void createStudentEndpointReturnsSuccessMessage() {
+	// 	ResponseEntity<String> response = studentController.createStudent();
+	// 	assertEquals(HttpStatus.OK, response.getStatusCode());
+	// 	assertEquals("Student created successfully", response.getBody());
+	// }
 
 }

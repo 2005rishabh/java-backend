@@ -9,6 +9,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class LoggingFilter implements Filter {
@@ -19,11 +21,17 @@ public class LoggingFilter implements Filter {
             ServletResponse servletResponse,
             FilterChain filterChain)
 
-            throws IOException, ServletException 
-    {
-        System.out.println("Loggin Filter started");
+            throws IOException, ServletException {
+        HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+        HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
+
+        System.out.println("Incoming req : " + httpServletRequest.getMethod() + " " +
+                httpServletRequest.getRequestURI());
+
         filterChain.doFilter(servletRequest, servletResponse);
-        System.out.println("Loggin Filter finished");
+
+        System.out.println("Incoming response status: " + httpServletResponse.getStatus());
+
     }
 
 }
