@@ -33,10 +33,10 @@ public class FileController {
         this.fileService = fileService;
     }
 
-    @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestPart MultipartFile multipartFile) throws IOException {
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> uploadFile(@RequestPart("file") MultipartFile multipartFile) throws IOException {
         String uploadedFileName = fileService.uploadFile(path, multipartFile);
-        return ResponseEntity.ok("File uploaded is " + uploadedFileName);
+        return ResponseEntity.ok("File uploaded is : " + uploadedFileName);
     }
 
     @GetMapping(value = "/{fileName}", produces = MediaType.IMAGE_PNG_VALUE)

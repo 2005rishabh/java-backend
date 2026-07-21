@@ -20,3 +20,5 @@ spring:
       max-request-size: 10MB
 project:
   images: images/
+base:
+  url: ${BASE_URL}
